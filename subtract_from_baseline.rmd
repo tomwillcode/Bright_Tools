@@ -5,7 +5,7 @@
 #One of the columns must specify the chronology of the measurements; that is, the order with which each measurment was taken. This needs to be a standardized ordinal way of tracking. Crucially, time stamps looking at measurements in real time won't work.
 #One of the columns must contain the target variable we are trying to transform in terms of how it differs from it's baseline for each subject/entity.
 
-
+library(tidyverse)
 
 
 subtract_from_baseline_mkv <- function(data, target, grouping, tracker, baseline, new_name) {
