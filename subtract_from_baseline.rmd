@@ -1,14 +1,16 @@
-#this function may be used on a dataframe where multiple measurements have been taken from the same entity across multiple rows in a dataframe.
-#the ideal use case will be research data where we are tracking changes to different entities over time on some measure.
+# this function may be used on a dataframe where multiple measurements have been taken from the same entity across multiple rows in a dataframe.
+# the ideal use case will be research data where we are tracking changes to different entities over time on some measure.
 
-#One of the columns must be an "ID" variable that specifies which subject/entity is which.
-#One of the columns must specify the chronology of the measurements; that is, the order with which each measurment was taken. This needs to be a standardized ordinal way of tracking. Crucially, time stamps looking at measurements in real time won't work.
-#One of the columns must contain the target variable we are trying to transform in terms of how it differs from it's baseline for each subject/entity.
+# One of the columns must be an "ID" variable that specifies which subject/entity is which.
+# One of the columns must specify the chronology of the measurements; that is, the order with which each measurment was taken. This needs to be a standardized ordinal way of tracking. Crucially, time stamps looking at measurements in real time won't work.
+# One of the columns must contain the target variable we are trying to transform in terms of how it differs from it's baseline for each subject/entity.
+# Find detailed documentation below
 
+```{r subtract from baseline function}
 library(tidyverse)
 
 
-subtract_from_baseline_mkv <- function(data, target, grouping, tracker, baseline, new_name) {
+subtract_from_baseline <- function(data, target, grouping, tracker, baseline, new_name) {
   grouping_var <- enquo(grouping)
   target_var <- enquo(target)
   tracker_var <- enquo(tracker)
@@ -21,3 +23,18 @@ subtract_from_baseline_mkv <- function(data, target, grouping, tracker, baseline
   
   return (data)
 }
+```
+
+# Regarding the arguments this function takes
+
+# data: this must be a dataframe that contains all the variables we are going to do the operation on, organized in the right way.
+
+# target: this is the target variable that will be adjusted so each value reflects the change from baseline for a given subject. This should be a numeric/continuous variable
+
+# grouping: this is like an "ID" variable that keeps track of who's who. It should specify which entity is which.
+
+# tracker: this is a variable that needs to take an ordinal approach to specifying when each measurement was taken, it should do this in a standardized way (e.g., 1 always = first measurement)
+
+# baseline: this is the value of the tracker variable that denotes when the first measurement was taken (e.g., 0, 1, "a")
+
+# new_name: the new variable that will be created is the target only it is transformed to relfect the change from baseline for each subject. You may give it whatever name you wish.
