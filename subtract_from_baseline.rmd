@@ -1,0 +1,23 @@
+#this function may be used on a dataframe where multiple measurements have been taken from the same entity across multiple rows in a dataframe.
+#the ideal use case will be research data where we are tracking changes to different entities over time on some measure.
+
+#One of the columns must be an "ID" variable that specifies which subject/entity is which.
+#One of the columns must specify the chronology of the measurements; that is, the order with which each measurment was taken. This needs to be a standardized ordinal way of tracking. Crucially, time stamps looking at measurements in real time won't work.
+#One of the columns must contain the target variable we are trying to transform in terms of how it differs from it's baseline for each subject/entity.
+
+
+
+
+subtract_from_baseline_mkv <- function(data, target, grouping, tracker, baseline, new_name) {
+  grouping_var <- enquo(grouping)
+  target_var <- enquo(target)
+  tracker_var <- enquo(tracker)
+  baseline_var <-enquo(baseline)
+  name_var <-enquo(new_name)
+  data  <-data %>% 
+            group_by({{grouping_var}}) %>% 
+            mutate({{name_var}} := {{target_var}} - {{target_var}}[{{tracker_var}} == {{baseline_var}}]) %>%
+            ungroup()
+  
+  return (data)
+}
