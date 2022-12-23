@@ -6,11 +6,11 @@
 # One of the columns must contain the target variable we are trying to transform in terms of how it differs from it's baseline for each subject/entity.
 # Find detailed documentation below
 
-```{r subtract from baseline function}
+```{r subtract baseline function}
 library(tidyverse)
 
 
-subtract_from_baseline <- function(data, target, grouping, tracker, baseline, new_name) {
+subtract_baseline <- function(data, target, grouping, tracker, baseline, new_name) {
   grouping_var <- enquo(grouping)
   target_var <- enquo(target)
   tracker_var <- enquo(tracker)
